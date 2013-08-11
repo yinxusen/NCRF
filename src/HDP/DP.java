@@ -20,5 +20,5 @@ public class DP extends MultiNomial {
 	public IntArrayList numTablesEachComponent;
 	public IntArrayList clusterOfData;
 	public int numDataItemsFromThisDP;
-	public List<DoubleMatrix1D> sufficientStatistics;
+	public IntArrayList sufficientStatistics;
 }

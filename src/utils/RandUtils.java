@@ -65,4 +65,19 @@ public class RandUtils {
 		}
 		return alpha;
 	}
+
+	public static int RandMult(DoubleArrayList pi, int length) {
+		double sum = 0.0;
+		int cc = 0;
+		for (cc = 0; cc < length; cc++) {
+			sum += pi.getQuick(cc);
+		}
+		double rand = Math.random() * sum;
+		for (cc = 0; cc < length; cc++) {
+			rand -= pi.getQuick(cc);
+			if (rand < 0.0)
+				break;
+		}
+		return cc;
+	}
 }

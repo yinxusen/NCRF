@@ -12,5 +12,5 @@ public class BASE {
 	public int numCLass;
 	public BaseParam baseParam;
 	public DoubleArrayList beta;
-	public List<DoubleMatrix1D> sufficientStatistics;
+	public List<DoubleArrayList> sufficientStatistics;
 }
