@@ -181,30 +181,62 @@ public class HDP {
 		}
 	}
 
-	public DoubleArrayList iterate(int numIteration, int doConParam, int doLik) {
+	public DoubleArrayList iterate(DoubleArrayList iterLik, int numIteration, int doConParam, int doLik) {
 		int jj = 0;
-		DoubleArrayList iterLik = new DoubleArrayList(numIteration);
 		for (int i = 0; i < numIteration; i++) {
-			for (jj=numDP-1; jj>=0; jj--) {
+			for (jj = numDP - 1; jj >= 0; jj--) {
 				if (stateOfDP.getQuick(jj) == ACTIVE) {
 					SampleDataAssignment(jj);
 					SampleNumberOfTables(jj);
 					CollectTotalPerDP(jj);
 				}
 			}
-			for (jj=0; jj<numDP; jj++) {
+			for (jj = 0; jj < numDP; jj++) {
 				if (stateOfDP.get(jj) == ACTIVE) {
 					SampleBeta(jj);
 				}
 			}
 			// TODO fill in with the deletion
 			/* delete useless classes */
-			for (int cc=base.numCLass-1; cc >=0; cc--) {
+			for (int cc = base.numCLass - 1; cc >= 0; cc--) {
 			}
-			
-			if (doConParam > 0) SampleConParams(doConParam);
-			if (doLik == 1) iterLik.set(i, likelihood());
+
+			if (doConParam > 0)
+				SampleConParams(doConParam);
+			if (doLik == 1)
+				iterLik.set(i, likelihood());
 		}
 		return iterLik;
+	}
+
+	/**
+	 * Active a specified DP
+	 * Usually a HELDOUT DP
+	 */
+	public void DPActivate(int jj) {
+		// TODO
+
+	}
+
+	public void DPHeldOut(int jj) {
+		// TODO
+	}
+
+	public void predict(DoubleArrayList lik, int numBurnIn, int numSample, int numPredict, IntArrayList predictJJ,
+			int doConParam) {
+		for (int jj = 0; jj < numPredict; jj++) {
+			DPHeldOut(predictJJ.get(jj));
+		}
+		for (int jj = 0; jj < numPredict; jj++) {
+			DoubleArrayList likTmp = new DoubleArrayList(numSample);
+			DPActivate(predictJJ.get(jj));
+			iterate(null, numBurnIn, doConParam, 0);
+			iterate(lik, numSample, doConParam, 1);
+			lik.addAllOf(likTmp);
+			DPHeldOut(predictJJ.get(jj));
+		}
+		for (int jj = 0; jj < numPredict; jj++) {
+			DPActivate(predictJJ.get(jj));
+		}
 	}
 }
