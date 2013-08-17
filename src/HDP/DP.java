@@ -16,9 +16,9 @@ public class DP extends MultiNomial {
 	}
 	public double alpha;
 	public DoubleArrayList beta;
-	public IntArrayList numDataItemsEachComponent;
-	public IntArrayList numTablesEachComponent;
-	public IntArrayList clusterOfData;
-	public int numDataItemsFromThisDP;
-	public IntArrayList sufficientStatistics;
+	public IntArrayList classnd;
+	public IntArrayList classnt;
+	public IntArrayList datacc;
+	public int numdata;
+	public IntArrayList datass;
 }

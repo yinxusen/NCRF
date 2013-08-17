@@ -9,8 +9,8 @@ import distribution.BaseParam;
 
 public class BASE {
 
-	public int numCLass;
-	public BaseParam baseParam;
+	public int numclass;
+	public BaseParam hh;
 	public DoubleArrayList beta;
-	public List<DoubleArrayList> sufficientStatistics;
+	public List<DoubleArrayList> classqq;
 }
