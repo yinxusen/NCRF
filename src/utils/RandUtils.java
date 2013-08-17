@@ -80,4 +80,8 @@ public class RandUtils {
 		}
 		return cc;
 	}
+	
+	public static int RandUniform(int numValue) {
+		return (int) Math.floor(Math.random() * numValue);
+	}
 }

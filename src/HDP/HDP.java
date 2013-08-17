@@ -23,6 +23,9 @@ public class HDP {
 	IntArrayList dpstate;
 	IntArrayList ttindex;
 
+	/**
+	 * return new number of class
+	 */
 	int addClass() {
 		/* Stick breaking */
 		for (int i = 0; i < dplist.size(); i++) {
@@ -52,8 +55,7 @@ public class HDP {
 		base.beta.set(base.numclass + 1, 1.0);
 		base.numclass++;
 
-		// TODO why return this ?
-		return base.numclass - 1;
+		return base.numclass;
 	}
 
 	int delClass(int delIndex) {
@@ -80,19 +82,28 @@ public class HDP {
 	}
 
 	/**
-	 * TODO here
-	 * @return
+	 * calculate the likelihood of HDP
+	 * @return lik
 	 */
 	public double likelihood() {
-		for (int i = 0; i < dplist.size(); i++) {
-			DP dp = dplist.get(i);
-			if (dpstate.get(i) == ACTIVE) {
-				for (int j = 0; j < dp.numdata; j++) {
-
+		/* remove all data from their classes */
+		for (int jj = 0; jj < numdp; jj++) {
+			if (dpstate.get(jj) == ACTIVE) {
+				for (int ii = 0; ii < dplist.get(jj).numdata; ii++) {
+					dplist.get(jj).delBall(ii);
 				}
 			}
 		}
-		return 0.0;
+		/* calculate likelihood and add data back again */
+		double lik = 0.0;
+		for (int jj = 0; jj < numdp; jj++) {
+			if (dpstate.get(jj) == ACTIVE) {
+				for (int ii = 0; ii < dplist.get(jj).numdata; ii++) {
+					lik += dplist.get(jj).addBallLikelihood(ii);
+				}
+			}
+		}
+		return lik;
 	}
 
 	public void SampleConParams(int numIteration) {
@@ -130,10 +141,8 @@ public class HDP {
 			}
 		} else {
 			for (int i = 0; i < base.numclass; i++) {
-				parentDp.classnd.set(i, parentDp.classnd.get(i)
-						- dp.classnt.get(i));
-				dp.classnt.set(i,
-						RandUtils.RandNumTables(dp.alpha * parentDp.beta.get(i), dp.classnd.get(i)));
+				parentDp.classnd.set(i, parentDp.classnd.get(i) - dp.classnt.get(i));
+				dp.classnt.set(i, RandUtils.RandNumTables(dp.alpha * parentDp.beta.get(i), dp.classnd.get(i)));
 			}
 		}
 	}
@@ -257,8 +266,7 @@ public class HDP {
 		 */
 		if (pp > -1) {
 			for (int cc = 0; cc < base.numclass; cc++) {
-				dplist.get(pp).classnd.set(cc, dplist.get(pp).classnd.get(cc)
-						- dp.classnt.get(cc));
+				dplist.get(pp).classnd.set(cc, dplist.get(pp).classnd.get(cc) - dp.classnt.get(cc));
 			}
 			while (pp > -1) {
 				SampleNumberOfTables(pp);
