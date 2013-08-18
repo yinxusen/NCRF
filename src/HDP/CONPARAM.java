@@ -7,13 +7,13 @@ public class CONPARAM {
 	double alpha;
 	double alphaa;
 	double alphab;
-	int munDP;
-	IntArrayList totalNumberOfData;
-	IntArrayList totalNumberOfTable;
+	int numdp;
+	IntArrayList totalnd;
+	IntArrayList totalnt;
 
 	public CONPARAM sample(int numIteration) {
-		alpha = RandUtils.RandConParam(alpha, munDP, totalNumberOfData,
-				totalNumberOfTable, alphaa, alphab, numIteration);
+		alpha = RandUtils.RandConParam(alpha, numdp, totalnd,
+				totalnt, alphaa, alphab, numIteration);
 		return this;
 	}
 }

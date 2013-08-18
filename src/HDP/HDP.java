@@ -1,6 +1,5 @@
 package HDP;
 
-import java.util.Iterator;
 import java.util.List;
 
 import cern.colt.matrix.*;
@@ -148,9 +147,7 @@ public class HDP {
 	}
 
 	/**
-	 * TODO Make sure that we can handle totalNumberOfData of conParams in this
-	 * way.
-	 * 
+	 * Sum number of tables and data items per DP.
 	 * @param jj
 	 */
 	public void CollectTotalPerDP(int jj) {
@@ -162,8 +159,8 @@ public class HDP {
 			totalnt += dplist.get(jj).classnt.get(cc);
 			totalnd += dplist.get(jj).classnd.get(cc);
 		}
-		conparam.get(cp).totalNumberOfData.set(tt, totalnd);
-		conparam.get(cp).totalNumberOfTable.set(tt, totalnt);
+		conparam.get(cp).totalnd.set(tt, totalnd);
+		conparam.get(cp).totalnt.set(tt, totalnt);
 	}
 
 	public void SampleDataAssignment(int jj) {
@@ -205,9 +202,11 @@ public class HDP {
 					SampleBeta(jj);
 				}
 			}
-			// TODO fill in with the deletion
-			/* delete useless classes */
+
 			for (int cc = base.numclass - 1; cc >= 0; cc--) {
+				if (base.classqq.size() == 0) {
+					delClass(cc);
+				}
 			}
 
 			if (doConParam > 0)
@@ -276,8 +275,8 @@ public class HDP {
 		}
 		int cp = cpindex.get(jj);
 		int tt = ttindex.get(jj);
-		conparam.get(cp).totalNumberOfData.set(tt, 0);
-		conparam.get(cp).totalNumberOfTable.set(tt, 0);
+		conparam.get(cp).totalnd.set(tt, 0);
+		conparam.get(cp).totalnt.set(tt, 0);
 		dpstate.set(jj, HELDOUT);
 	}
 

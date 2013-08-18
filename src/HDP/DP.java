@@ -12,7 +12,6 @@ public class DP extends MultiNomial {
 
 	public DP(BaseParam bb) {
 		super(bb);
-		// TODO Auto-generated constructor stub
 	}
 	public double alpha;
 	public DoubleArrayList beta;

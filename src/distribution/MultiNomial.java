@@ -3,9 +3,9 @@ package distribution;
 import cern.colt.list.*;
 
 public class MultiNomial {
-	public BaseParam baseParam;
+	public BaseParam baseparam;
 	public IntArrayList boxes;
-	public int totalBall;
+	public int totalball;
 
 	/**
 	 * Get a new instance of multinomial distribution.
@@ -13,8 +13,8 @@ public class MultiNomial {
 	 * @param bb
 	 */
 	public MultiNomial(BaseParam bb) {
-		boxes = new IntArrayList(bb.numDim);
-		totalBall = 0;
+		boxes = new IntArrayList(bb.numdim);
+		totalball = 0;
 	}
 
 	/**
@@ -24,7 +24,7 @@ public class MultiNomial {
 	 */
 	public void addBall(int index) {
 		boxes.set(index, boxes.get(index) + 1);
-		totalBall++;
+		totalball++;
 	}
 
 	/**
@@ -35,17 +35,17 @@ public class MultiNomial {
 	 */
 	public void delBall(int index) {
 		boxes.set(index, boxes.get(index) - 1);
-		totalBall--;
+		totalball--;
 	}
 
 	public double marginalLikelihood(int index) {
-		return Math.log((baseParam.eta.get(index) + boxes.get(index))
-				/ (baseParam.totalEta + totalBall));
+		return Math.log((baseparam.eta.get(index) + boxes.get(index))
+				/ (baseparam.totaleta + totalball));
 	}
 
 	public DoubleArrayList marginalLikelihoods() {
-		DoubleArrayList ll = new DoubleArrayList(baseParam.numDim);
-		for (int i = 0; i < baseParam.numDim; i++) {
+		DoubleArrayList ll = new DoubleArrayList(baseparam.numdim);
+		for (int i = 0; i < baseparam.numdim; i++) {
 			ll.set(i, marginalLikelihood(i));
 		}
 		return ll;

@@ -3,7 +3,7 @@ package distribution;
 import cern.colt.list.DoubleArrayList;
 
 public class BaseParam {
-	int numDim;
+	int numdim;
 	DoubleArrayList eta;
-	double totalEta;
+	double totaleta;
 }
