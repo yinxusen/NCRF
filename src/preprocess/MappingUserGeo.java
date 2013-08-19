@@ -72,7 +72,7 @@ public class MappingUserGeo {
 		int numgeo = 0;
 		double[] meanOfGeo = new double[nummodal];
 		double[] varOfGeo = new double[nummodal];
-		for (int i = 0; i < meanng; i++) {
+		for (int i = 0; i < nummodal; i++) {
 			meanOfGeo[i] = Math.random() * geos.size();
 			varOfGeo[i] = Math.random() * repetition;
 		}
@@ -95,7 +95,7 @@ public class MappingUserGeo {
 		int length = geolist.length;
 		for (String user : mixin.keySet()) {
 			for (int index : mixin.get(user)) {
-				while (index < 0 || index > length - 1) {
+				if (index < 0 || index > length - 1) {
 					index = (int) Math.floor(Math.random() * length);
 				}
 				output.write(user + "," + geolist[index] + "\n");
@@ -105,9 +105,12 @@ public class MappingUserGeo {
 	}
 
 	public static void main(String[] args) throws IOException {
+		long begin = System.currentTimeMillis();
 		MappingUserGeo test = new MappingUserGeo();
 		test.init("weibo_users", "msra_geo");
-		test.MixIn(10000, 10, 100);
+		test.MixIn(10000, 500, 100);
+		long end = System.currentTimeMillis();
+		System.out.println(1.0 * (end - begin) / 1000 + "s");
 		test.output("user_geo_mapping");
 	}
 
