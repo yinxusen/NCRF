@@ -107,11 +107,10 @@ public class MappingUserGeo {
 	public static void main(String[] args) throws IOException {
 		long begin = System.currentTimeMillis();
 		MappingUserGeo test = new MappingUserGeo();
-		test.init("weibo_users", "msra_geo");
-		test.MixIn(1000000, 500, 100);
+		test.init("weibo_users", "locations");
+		test.MixIn(1000000, 2000, 100);
 		long end = System.currentTimeMillis();
 		System.out.println(1.0 * (end - begin) / 1000 + "s");
 		test.output("user_geo_mapping");
 	}
-
 }
